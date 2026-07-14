@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="ka" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARDAMKARGO | შენი უხილავი მფარველი</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800;900&family=Noto+Sans+Georgian:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Noto Sans Georgian"', 'sans-serif'],
+                        display: ['Montserrat', 'sans-serif'],
+                    },
+                    colors: {
+                        premiumBlack: '#020204',
+                        premiumDark: '#07070a',
+                        premiumGray: '#0d0e12',
+                        premiumBorder: 'rgba(255,255,255,0.04)',
+                        brandBlue: '#0052ff',
+                        brandBlueLight: '#3b82f6',
+                        accentSilver: '#f4f4f5',
+                    },
+                    backgroundImage: {
+                        'glass': 'linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)',
+                        'metallic': 'linear-gradient(to right, #e2e2e2, #ffffff, #9e9e9e, #ffffff)',
+                        'neon-radial': 'radial-gradient(circle, rgba(0,82,255,0.15) 0%, transparent 70%)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #020204;
+            color: #e4e4e7;
+            overflow-x: hidden;
+        }
+
+        /* გამოჩენის ანიმაციები */
+        .reveal {
+            opacity: 0;
+            transform: translateY(35px);
+            transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* უკანა ფონის დინამიური კოსმოსური ნათება */
+        .ambient-glow {
+            position: absolute;
+            width: 50vw;
+            height: 50vw;
+            background: radial-gradient(circle, rgba(0, 82, 255, 0.08) 0%, rgba(59, 130, 246, 0.02) 50%, transparent 70%);
+            border-radius: 50%;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 0;
+            pointer-events: none;
+            animation: pulse-glow 10s infinite alternate ease-in-out;
+            filter: blur(40px);
+        }
+
+        @keyframes pulse-glow {
+            0% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 0.6; }
+            100% { transform: translate(-50%, -50%) scale(1.15) rotate(180deg); opacity: 1; }
+        }
+
+        /* 3D Smart Card კონტეინერი მუდმივი "ტივტივის" ანიმაციით */
+        .smart-card-container {
+            perspective: 3000px;
+            position: relative;
+            z-index: 20;
+            animation: floatCard 6s ease-in-out infinite;
+        }
+
+        /* ბარათის ნეონის ჰალო უკანა ფონზე იზოლაციისთვის */
+        .card-neon-halo {
+            position: absolute;
+            width: 360px;
+            height: 540px;
+            background: radial-gradient(circle, rgba(0, 82, 255, 0.25) 0%, transparent 75%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+            border-radius: 30px;
+            filter: blur(35px);
+            pointer-events: none;
+            transition: all 0.8s ease;
+        }
+
+        .smart-card-container:hover .card-neon-halo {
+            background: radial-gradient(circle, rgba(0, 82, 255, 0.4) 0%, transparent 75%);
+            filter: blur(45px);
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        @keyframes floatCard {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(0.5deg); }
+        }
+
+        .smart-card {
+            width: 310px;
+            height: 485px;
+            background: linear-gradient(150deg, #1b1c21 0%, #0c0d10 50%, #030305 100%);
+            border-radius: 20px;
+            box-shadow: 
+                inset 0 1px 1px rgba(255,255,255,0.12),
+                inset -1px -1px 3px rgba(0,0,0,0.85),
+                0 25px 50px -12px rgba(0, 0, 0, 0.95),
+                0 0 40px rgba(0, 82, 255, 0.1);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transform: rotateY(-14deg) rotateX(10deg);
+            transform-style: preserve-3d;
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.8s ease;
+            background-image: 
+                linear-gradient(150deg, rgba(255,255,255,0.06) 0%, rgba(0,0,0,0) 50%, rgba(0,0,0,0.6) 100%),
+                url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .smart-card-container:hover .smart-card {
+            transform: rotateY(0deg) rotateX(0deg) scale(1.04);
+            box-shadow: 
+                inset 0 1px 2px rgba(255,255,255,0.22),
+                inset -1px -1px 3px rgba(0,0,0,0.9),
+                0 35px 70px rgba(0,0,0,0.9),
+                0 0 50px rgba(0, 82, 255, 0.25);
+            border-color: rgba(255,255,255,0.15);
+        }
+
+        .card-hole {
+            position: absolute;
+            top: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 62px;
+            height: 12px;
+            background-color: #020203;
+            border-radius: 20px;
+            box-shadow: inset 0 3px 5px rgba(0,0,0,0.95), 0 1px 1px rgba(255,255,255,0.07);
+        }
+
+        .card-led {
+            position: absolute;
+            top: 56px;
+            right: 32px;
+            width: 7px;
+            height: 7px;
+            background-color: #ffffff;
+            border-radius: 50%;
+            box-shadow: 0 0 14px 4px rgba(255, 255, 255, 0.95), inset 0 0 1px #fff;
+            animation: breathe 2.5s infinite ease-in-out;
+        }
+
+        @keyframes breathe {
+            0%, 100% { opacity: 0.4; box-shadow: 0 0 5px rgba(255,255,255,0.3); }
+            50% { opacity: 1; box-shadow: 0 0 18px 5px rgba(255,255,255,1); }
+        }
+
+        .logo-container {
+            margin-top: 145px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transform: translateZ(30px);
+        }
+
+        .logo-svg {
+            width: 110px;
+            height: auto;
+            margin-bottom: 18px;
+            filter: drop-shadow(0 6px 10px rgba(0,0,0,0.85));
+        }
+
+        .svg-metal {
+            fill: none;
+            stroke: url(#metalGrad);
+            stroke-width: 5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .brand-name {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 25px;
+            font-weight: 800;
+            letter-spacing: 3px;
+            background: linear-gradient(135deg, #ffffff 0%, #cccccc 35%, #ffffff 55%, #8c8c8c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 3px 6px rgba(0,0,0,0.9));
+        }
+
+        .card-badges {
+            position: absolute;
+            bottom: 28px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            padding: 0 18px;
+            transform: translateZ(20px);
+        }
+
+        .badge-box {
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            padding: 5px 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(5, 5, 8, 0.4);
+            width: 132px;
+            backdrop-filter: blur(6px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            transition: border 0.3s ease;
+        }
+
+        .smart-card-container:hover .badge-box {
+            border-color: rgba(255,255,255,0.25);
+        }
+
+        .badge-box i { font-size: 13px; color: #d4d4d8; }
+        .badge-text { font-family: 'Montserrat', sans-serif; font-size: 7px; color: #a1a1aa; line-height: 1.25; text-align: left; }
+        .badge-text b { font-size: 8px; color: #f4f4f5; font-weight: 600; }
+
+        /* Bento Box სტილიზაცია ფერადი აქცენტებით */
+        .bento-box {
+            background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.005) 100%);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 28px;
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            cursor: default;
+        }
+        
+        .bento-box:hover {
+            border-color: rgba(59, 130, 246, 0.3);
+            transform: translateY(-8px);
+            box-shadow: 
+                0 30px 60px rgba(0,0,0,0.8),
+                0 0 30px rgba(0, 82, 255, 0.15);
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.03) 0%, rgba(0,0,0,0.5) 100%);
+        }
+
+        .bento-box .icon-container {
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .bento-box:hover .icon-container {
+            transform: scale(1.18) rotate(3deg);
+            filter: drop-shadow(0 0 15px rgba(59, 130, 246, 0.5));
+        }
+
+        .glow-bg {
+            position: absolute;
+            width: 280px;
+            height: 280px;
+            background: radial-gradient(circle, rgba(0, 82, 255, 0.06) 0%, rgba(0,0,0,0) 70%);
+            top: -110px;
+            right: -110px;
+            border-radius: 50%;
+            z-index: 0;
+            transition: all 0.8s ease;
+        }
+        
+        .bento-box:hover .glow-bg {
+            background: radial-gradient(circle, rgba(0, 82, 255, 0.15) 0%, rgba(0,0,0,0) 70%);
+            transform: scale(1.3);
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, #ffffff 0%, #b1b1b6 50%, #71717a 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .blue-gradient-text {
+            background: linear-gradient(135deg, #ffffff 0%, #93c5fd 60%, #3b82f6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Button Premium */
+        .btn-premium {
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-premium::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: all 0.6s ease;
+        }
+        .btn-premium:hover::before {
+            left: 100%;
+        }
+        .btn-premium:hover {
+            box-shadow: 
+                0 0 35px rgba(255,255,255,0.45),
+                0 0 15px rgba(0, 82, 255, 0.3);
+            transform: translateY(-3px) scale(1.02);
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-white selection:text-black">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 top-0 backdrop-blur-xl bg-premiumBlack/60 border-b border-white/5 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <div class="font-display font-bold text-xl tracking-[0.25em] text-white">ARDAMKARGO</div>
+            <div class="hidden md:flex gap-10 text-xs font-semibold uppercase tracking-widest text-zinc-400">
+                <a href="#features" class="hover:text-white transition duration-300">შესაძლებლობები</a>
+                <a href="#usecases" class="hover:text-white transition duration-300">გამოყენება</a>
+            </div>
+            <a href="#order" class="btn-premium text-xs font-bold uppercase tracking-widest bg-white text-black px-8 py-3 rounded-full shadow-[0_0_20px_rgba(255,255,255,0.15)]">შეძენა</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="min-h-screen flex flex-col justify-center items-center text-center px-4 relative pt-32 pb-20 overflow-hidden">
+        
+        <div class="ambient-glow"></div>
+        <div class="absolute inset-0 z-0 flex items-center justify-center pointer-events-none">
+            <div class="w-[85vw] h-[85vw] max-w-[1000px] max-h-[1000px] bg-blue-900/10 rounded-full blur-[200px] opacity-20"></div>
+        </div>
+        
+        <div class="z-10 reveal active max-w-5xl mt-6">
+            <div class="inline-flex items-center gap-2 border border-blue-500/20 rounded-full px-5 py-2 mb-8 backdrop-blur-md bg-blue-950/10 shadow-[0_0_15px_rgba(0,82,255,0.1)]">
+                <span class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
+                <span class="text-xs uppercase tracking-[0.25em] text-blue-300 font-bold">ელიტარული ტექნოლოგია</span>
+            </div>
+            <h1 class="text-5xl md:text-7xl lg:text-[6rem] font-black mb-6 tracking-tight text-white uppercase leading-[1.05]">
+                უხილავი<br><span class="blue-gradient-text">სიმშვიდე</span>
+            </h1>
+            <p class="text-lg md:text-xl text-zinc-400 font-light mb-16 tracking-wide max-w-3xl mx-auto leading-relaxed">
+                სრულყოფილება, რომელიც არღვევს სტანდარტებს. ულტრა-თხელი ჭკვიანი ბარათი, რომელიც შეუმჩნევლად იცავს თქვენს <span class="text-white font-semibold">საფულეს, ჩემოდანს, ტექნიკასა და ყველაზე ფასდაუდებელ აქტივებს.</span>
+            </p>
+        </div>
+
+        <!-- ჰიპერ-რეალისტური 3D ბარათი გამოყოფილი ჰალოთი -->
+        <div class="z-10 reveal active smart-card-container mb-12">
+            <div class="card-neon-halo"></div>
+            <div class="smart-card">
+                <div class="card-hole"></div>
+                <div class="card-led"></div>
+                
+                <div class="logo-container">
+                    <svg class="logo-svg" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="metalGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#ffffff" />
+                                <stop offset="30%" stop-color="#e4e4e7" />
+                                <stop offset="50%" stop-color="#f4f4f5" />
+                                <stop offset="80%" stop-color="#a1a1aa" />
+                                <stop offset="100%" stop-color="#ffffff" />
+                            </linearGradient>
+                        </defs>
+                        <path class="svg-metal" d="M 30 90 L 60 25 L 90 90" />
+                        <path class="svg-metal" d="M 35 75 Q 60 100 85 65 L 100 45" />
+                        <path class="svg-metal" d="M 85 45 L 100 45 L 100 60" />
+                        <path class="svg-metal" stroke-width="4" d="M 60 40 C 55 40 52 44 52 48 C 52 54 60 62 60 62 C 60 62 68 54 68 48 C 68 44 65 40 60 40 Z" />
+                        <circle cx="60" cy="47" r="2" fill="url(#metalGrad)" />
+                    </svg>
+                    <h2 class="brand-name">ARDAMKARGO</h2>
+                </div>
+
+                <div class="card-badges">
+                    <div class="badge-box">
+                        <i class="fa-solid fa-wifi"></i>
+                        <div class="badge-text">Locate with<br><b>App / Find My</b></div>
+                    </div>
+                    <div class="badge-box">
+                        <i class="fa-solid fa-crosshairs"></i>
+                        <div class="badge-text">Locate with<br><b>AirTag / Find My</b></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ემოციური პრობლემა (The "Why") -->
+    <section class="py-32 bg-premiumDark border-t border-white/5 relative z-10">
+        <div class="max-w-6xl mx-auto px-6 text-center reveal">
+            <h2 class="text-3xl md:text-5xl font-bold mb-10 text-white leading-tight">
+                დაკარგვის შიში უკვე წარსულია
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-left mt-20">
+                <div class="p-8 border-l border-blue-500/20 hover:border-blue-500 hover:bg-blue-950/[0.03] transition duration-500 rounded-r-2xl">
+                    <h3 class="text-5xl font-black text-white mb-4">3672</h3>
+                    <h4 class="text-xl font-bold mb-3 text-white">დაკარგული საათი</h4>
+                    <p class="text-zinc-400 leading-relaxed">სტატისტიკურად, ადამიანი სიცოცხლის მანძილზე საშუალოდ 3672 საათს ხარჯავს ნივთების ძებნაში. „არდამკარგო“ გაძლევთ საშუალებას, ეს დრო დაუბრუნოთ თქვენს ცხოვრებას.</p>
+                </div>
+                <div class="p-8 border-l border-zinc-800 hover:border-zinc-400 hover:bg-white/[0.01] transition duration-500 rounded-r-2xl">
+                    <h3 class="text-4xl font-black text-white mb-5"><i class="fa-solid fa-suitcase"></i></h3>
+                    <h4 class="text-xl font-bold mb-3 text-white">ჩაშლილი გეგმები</h4>
+                    <p class="text-zinc-400 leading-relaxed">აეროპორტის ქაოსი და დაკარგული ბარგი. ფინანსური ზარალი და მწვავე სტრესი, როცა უმნიშვნელოვანესი დოკუმენტები მოულოდნელად გეკარგებათ.</p>
+                </div>
+                <div class="p-8 border-l border-red-900/30 hover:border-red-500 hover:bg-red-900/5 transition duration-500 rounded-r-2xl">
+                    <h3 class="text-4xl font-black text-red-500 mb-5"><i class="fa-solid fa-ban"></i></h3>
+                    <h4 class="text-xl font-bold mb-3 text-white">მოუხერხებელი ალტერნატივა</h4>
+                    <p class="text-zinc-400 leading-relaxed">სტანდარტული ტრეკერები სქელია და დისკომფორტს ქმნის. კომპრომისი დახვეწილ სტილსა და უსაფრთხოებას შორის მიუღებელია.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- პროდუქტის მახასიათებლები (Bento Grid) -->
+    <section id="features" class="py-32 bg-premiumBlack border-t border-white/5 relative z-10">
+        <div class="max-w-[1400px] mx-auto px-6">
+            <div class="text-center mb-20 reveal">
+                <h2 class="text-4xl md:text-5xl font-bold text-white mb-6">საინჟინრო სრულყოფილება</h2>
+                <p class="text-lg text-zinc-400 max-w-2xl mx-auto">ბარათი აღჭურვილია უახლესი ინოვაციური ტექნოლოგიებით, რაც უზრუნველყოფს მაქსიმალურ სიზუსტეს და პრემიუმ გამოცდილებას.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 auto-rows-[280px] mb-6">
+                <!-- 0.18cm (Bento Big Block) -->
+                <div class="bento-box md:col-span-2 row-span-2 flex flex-col justify-center items-center text-center reveal">
+                    <div class="glow-bg"></div>
+                    <div class="relative z-10">
+                        <div class="text-8xl md:text-[10rem] font-black text-transparent bg-clip-text bg-gradient-to-b from-white via-zinc-400 to-zinc-900 mb-2 tracking-tighter leading-none transition-transform duration-500 hover:scale-105">0.18</div>
+                        <h3 class="text-2xl font-bold text-white mb-4">მილიმეტრი. შეუმჩნეველი უსაფრთხოება.</h3>
+                        <p class="text-zinc-400 max-w-md mx-auto text-base leading-relaxed">
+                            ზუსტად საკრედიტო ბარათის ზომა. არანაირი დეფორმაცია. ის უხილავად თავსდება თქვენს საფულეში, საბუთების ქეისსა თუ პასპორტის ბუდეში.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Dual GPS -->
+                <div class="bento-box md:col-span-2 reveal flex flex-col justify-between group">
+                    <div class="glow-bg" style="background: radial-gradient(circle, rgba(0, 82, 255, 0.08) 0%, transparent 70%);"></div>
+                    <div class="relative z-10 flex justify-between items-start">
+                        <h3 class="text-2xl font-bold text-white">Apple Find My &<br>Android ქსელი</h3>
+                        <div class="icon-container"><i class="fa-solid fa-satellite-dish text-3xl text-zinc-500 group-hover:text-blue-400"></i></div>
+                    </div>
+                    <div class="relative z-10 mt-6 flex justify-between items-end">
+                        <p class="text-zinc-400 max-w-xs text-sm leading-relaxed">MFi სერტიფიცირებული. იყენებს მილიარდობით მოწყობილობის გლობალურ ქსელს პლანეტის ნებისმიერ წერტილში ლოკაციის უზუსტესი დადგენისთვის.</p>
+                        <div class="flex gap-4 text-3xl text-zinc-400 group-hover:text-white transition-colors duration-300">
+                            <i class="fa-brands fa-apple"></i>
+                            <i class="fa-brands fa-android text-emerald-500"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Wireless Charging -->
+                <div class="bento-box reveal flex flex-col justify-between group">
+                    <div class="glow-bg" style="top:-50px; right:-50px; background: radial-gradient(circle, rgba(59, 130, 246, 0.08) 0%, transparent 70%);"></div>
+                    <div class="relative z-10 flex justify-between items-start">
+                        <h3 class="text-xl font-bold text-white">უსადენო<br>დატენვა</h3>
+                        <div class="icon-container"><i class="fa-solid fa-bolt text-2xl text-zinc-500 group-hover:text-blue-400"></i></div>
+                    </div>
+                    <div class="relative z-10 mt-6">
+                        <div class="text-2xl font-bold text-white mb-2 tracking-wide uppercase text-sm text-zinc-400">Qi ინდუქცია</div>
+                        <p class="text-sm text-zinc-400 leading-relaxed">დატენეთ ნებისმიერ უსადენო დამტენზე და სამუდამოდ დაივიწყეთ ელემენტების შეცვლა.</p>
+                    </div>
+                </div>
+
+                <!-- 120dB Sound -->
+                <div class="bento-box reveal flex flex-col justify-between group">
+                    <div class="glow-bg" style="top:-50px; right:-50px;"></div>
+                    <div class="relative z-10 flex justify-between items-start">
+                        <h3 class="text-xl font-bold text-white">ძლიერი<br>სიგნალი</h3>
+                        <div class="icon-container"><i class="fa-solid fa-volume-high text-2xl text-zinc-500 group-hover:text-blue-400"></i></div>
+                    </div>
+                    <div class="relative z-10 mt-6">
+                        <div class="text-2xl font-bold text-white mb-2 tracking-wide uppercase text-sm text-zinc-400">~100 დეციბელი</div>
+                        <p class="text-sm text-zinc-400 leading-relaxed">ჩაშენებული მინიატურული დინამიკი გამოსცემს მკაფიო ხმას, რათა მარტივად იპოვოთ ნივთი ოთახში.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- მეორე რიგი: დამატებითი შესაძლებლობები -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[250px]">
+                
+                <!-- NFC Lost Mode (SVG გრაფიკით) -->
+                <div class="bento-box reveal flex flex-col justify-between group">
+                    <div class="glow-bg" style="background: radial-gradient(circle, rgba(0, 82, 255, 0.06) 0%, transparent 70%);"></div>
+                    <div class="relative z-10">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-xl font-bold text-white">NFC დაკარგვის რეჟიმი</h3>
+                            <div class="icon-container">
+                                <svg class="w-9 h-9 text-zinc-500 group-hover:text-blue-400 transition-colors duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M6 8.32a7.43 7.43 0 0 1 0 7.36"/>
+                                    <path d="M9.46 6.21a11.76 11.76 0 0 1 0 11.58"/>
+                                    <path d="M12.91 4.1a15.91 15.91 0 0 1 .01 15.8"/>
+                                    <path d="M16.37 2a20.16 20.16 0 0 1 0 20"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <p class="text-sm text-zinc-400 mt-4 leading-relaxed">
+                            დაკარგვის შემთხვევაში, მპოვნელი შეძლებს ბარათზე სმარტფონის ერთი შეხებით (NFC) იხილოს თქვენი საკონტაქტო მონაცემები და დაგიბრუნოთ ნივთი.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Privacy & Anti-stalking -->
+                <div class="bento-box reveal flex flex-col justify-between group">
+                    <div class="glow-bg"></div>
+                    <div class="relative z-10">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-xl font-bold text-white">აბსოლუტური კონფიდენციალურობა</h3>
+                            <div class="icon-container"><i class="fa-solid fa-shield-halved text-3xl text-zinc-500 group-hover:text-emerald-400 transition-colors duration-300"></i></div>
+                        </div>
+                        <p class="text-sm text-zinc-400 mt-4 leading-relaxed">
+                            თქვენი ლოკაციის მონაცემები სრულად დაშიფრულია (End-to-end encryption). სისტემა მყისიერად გაფრთხილებთ, თუ უცხო ტრეკერი თქვენთან ერთად გადაადგილდება.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Waterproof -->
+                <div class="bento-box reveal flex flex-col justify-between group">
+                    <div class="glow-bg"></div>
+                    <div class="relative z-10">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-xl font-bold text-white">წყალგამძლეობა</h3>
+                            <div class="icon-container"><i class="fa-solid fa-droplet text-3xl text-zinc-500 group-hover:text-cyan-400 transition-colors duration-300"></i></div>
+                        </div>
+                        <p class="text-sm text-zinc-400 mt-4 leading-relaxed">
+                            წვიმა, სინესტე თუ წყალში ჩავარდნა — პრემიუმ კლასის ABS მასალა და ჰერმეტული კორპუსი სრულად იცავს მიკროსქემებს დაზიანებისგან.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- გამოყენების სფეროები -->
+    <section id="usecases" class="py-32 bg-premiumDark border-y border-white/5 relative overflow-hidden z-10">
+        <div class="absolute left-0 bottom-0 w-1/3 h-1/2 bg-gradient-to-tr from-blue-900/10 to-transparent opacity-30 z-0 pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-6 relative z-10">
+            <div class="text-center mb-24 reveal">
+                <h2 class="text-4xl md:text-5xl font-bold text-white mb-6">დაცულია ყველაფერი, რაც ძვირფასია</h2>
+                <p class="text-lg text-zinc-400">ბარათის თხელი დიზაინი საშუალებას გაძლევთ იზრუნოთ ნებისმიერ აქტივზე.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-16">
+                <!-- Wallet -->
+                <div class="reveal border-t border-white/10 pt-6 group">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-2xl font-bold text-white group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-blue-400 transition-all duration-300">ბიზნესი & საფულე</h3>
+                        <i class="fa-solid fa-wallet text-3xl text-zinc-700 group-hover:text-blue-400 transition duration-500 transform group-hover:-translate-y-2"></i>
+                    </div>
+                    <p class="text-zinc-400 leading-relaxed">იდეალური მორგება ტყავის საფულეში. დაიცავით საკრედიტო ბარათები, ნაღდი ფული და მნიშვნელოვანი კონტრაქტები ყოველდღიურობაში.</p>
+                </div>
+
+                <!-- Travel -->
+                <div class="reveal border-t border-white/10 pt-6 group">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-2xl font-bold text-white group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-blue-400 transition-all duration-300">მოგზაურობა & ბარგი</h3>
+                        <i class="fa-solid fa-plane text-3xl text-zinc-700 group-hover:text-blue-400 transition duration-500 transform group-hover:-translate-y-2"></i>
+                    </div>
+                    <p class="text-zinc-400 leading-relaxed">ჩადეთ ბარგში ან პასპორტის ბუდეში. ზუსტად იცოდეთ, სად არის თქვენი ჩემოდანი ნებისმიერ უცხო აეროპორტში გადაჯდომისას.</p>
+                </div>
+
+                <!-- Tech -->
+                <div class="reveal border-t border-white/10 pt-6 group">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-2xl font-bold text-white group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-blue-400 transition-all duration-300">ტექნიკა & ინვენტარი</h3>
+                        <i class="fa-solid fa-laptop text-3xl text-zinc-700 group-hover:text-blue-400 transition duration-500 transform group-hover:-translate-y-2"></i>
+                    </div>
+                    <p class="text-zinc-400 leading-relaxed">მოათავსეთ ბარათი ლეპტოპის, კამერის ჩანთაში ან დრონის ქეისში. გადაარჩინეთ ათასობით დოლარის ტექნიკა და ფასდაუდებელი ფაილები.</p>
+                </div>
+
+                <!-- Vehicles -->
+                <div class="reveal border-t border-white/10 pt-6 group">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-2xl font-bold text-white group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-blue-400 transition-all duration-300">ავტო & მოტო</h3>
+                        <i class="fa-solid fa-car text-3xl text-zinc-700 group-hover:text-blue-400 transition duration-500 transform group-hover:-translate-y-2"></i>
+                    </div>
+                    <p class="text-zinc-400 leading-relaxed">წყალგამძლეობისა და თხელი ფორმატის წყალობით, მარტივად იმალება ავტომობილის სათავსოში, სკუტერში ან ველოსიპედის სავარძლის ქვეშ.</p>
+                </div>
+
+                <!-- Family -->
+                <div class="reveal border-t border-white/10 pt-6 group">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-2xl font-bold text-white group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-blue-400 transition-all duration-300">ოჯახი & უსაფრთხოება</h3>
+                        <i class="fa-solid fa-children text-3xl text-zinc-700 group-hover:text-blue-400 transition duration-500 transform group-hover:-translate-y-2"></i>
+                    </div>
+                    <p class="text-zinc-400 leading-relaxed">გაუზიარეთ ლოკაცია ოჯახის წევრებს. მოათავსეთ ბავშვის ზურგჩანთაში ან ხანდაზმული მშობლის ქურთუკში მათი უსაფრთხოებისთვის.</p>
+                </div>
+
+                <!-- Essentials -->
+                <div class="reveal border-t border-white/10 pt-6 group">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-2xl font-bold text-white group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-blue-400 transition-all duration-300">გასაღებები & სხვა</h3>
+                        <i class="fa-solid fa-key text-3xl text-zinc-700 group-hover:text-blue-400 transition duration-500 transform group-hover:-translate-y-2"></i>
+                    </div>
+                    <p class="text-zinc-400 leading-relaxed">სპეციალური ჭრილის მეშვეობით მარტივად მაგრდება გასაღებების აცმაზე. მიიღეთ შეტყობინება, თუ ნივთის გარეშე გახვალთ სახლიდან.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section id="order" class="py-32 bg-premiumDark text-center px-4 relative border-t border-white/5 overflow-hidden z-10">
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black z-0 pointer-events-none"></div>
+        <div class="ambient-glow" style="width: 65vw; height: 65vw; opacity: 0.35;"></div>
+        
+        <div class="max-w-3xl mx-auto reveal relative z-10">
+            <div class="inline-flex items-center gap-2 bg-blue-950/20 border border-blue-500/30 text-blue-300 text-xs font-bold px-6 py-2.5 rounded-full mb-8 uppercase tracking-widest shadow-lg hover:border-blue-500/50 transition duration-300 cursor-default">
+                <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+                LIMITED DROP - 20 ერთეული
+            </div>
+            <h2 class="text-5xl md:text-7xl font-black mb-8 text-white tracking-tight leading-tight">ნუ დაელოდები<br>დანაკარგს.</h2>
+            <p class="text-lg md:text-xl text-zinc-400 mb-12 max-w-2xl mx-auto leading-relaxed">
+                პირველი ექსკლუზიური პარტია უკვე თბილისშია. მიიღეთ აბსოლუტური კონტროლი და აღარასოდეს დაკარგოთ დრო ნივთების ძებნაში.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-6">
+                <button class="btn-premium bg-white text-black font-bold py-5 px-14 rounded-full text-lg shadow-[0_0_20px_rgba(255,255,255,0.2)] w-full sm:w-auto flex justify-center items-center gap-3">
+                    შეიძინე ახლავე <i class="fa-solid fa-arrow-right"></i>
+                </button>
+                <button class="btn-premium bg-transparent border border-white/20 text-white font-semibold py-5 px-14 rounded-full text-lg hover:bg-white/5 w-full sm:w-auto">
+                    კორპორატიული შეკვეთა
+                </button>
+            </div>
+            
+            <div class="mt-14 flex flex-wrap items-center justify-center gap-8 text-sm text-zinc-500 font-medium">
+                <span class="flex items-center gap-2 hover:text-white transition duration-300 cursor-default"><i class="fa-solid fa-truck-fast text-zinc-400"></i> მიწოდება 24 საათში</span>
+                <span class="flex items-center gap-2 hover:text-white transition duration-300 cursor-default"><i class="fa-solid fa-shield-halved text-zinc-400"></i> ოფიციალური გარანტია</span>
+                <span class="flex items-center gap-2 hover:text-white transition duration-300 cursor-default"><i class="fa-solid fa-gift text-zinc-400"></i> პრემიუმ შეფუთვა</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black py-12 border-t border-white/5 relative z-10">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-3 opacity-80 hover:opacity-100 transition">
+                <svg width="24" height="24" viewBox="0 0 100 100" fill="none" stroke="white" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M 20 85 L 50 20 L 80 85" />
+                    <path d="M 25 70 Q 50 90 75 60 L 90 40" />
+                    <circle cx="50" cy="40" r="8" fill="white" stroke="none" />
+                </svg>
+                <span class="font-display font-bold tracking-[0.2em] text-white text-lg">ARDAMKARGO</span>
+            </div>
+            <div class="flex gap-6 text-gray-500 text-xl">
+                <a href="#" class="hover:text-white hover:scale-110 transition-transform duration-300"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" class="hover:text-white hover:scale-110 transition-transform duration-300"><i class="fa-brands fa-facebook"></i></a>
+                <a href="#" class="hover:text-white hover:scale-110 transition-transform duration-300"><i class="fa-brands fa-tiktok"></i></a>
+            </div>
+            <div class="text-zinc-600 text-sm font-medium">
+                &copy; 2026 Ardamkargo. ყველა უფლება დაცულია.
+            </div>
+        </div>
+    </footer>
+
+    <!-- სკრიპტი ანიმაციებისთვის -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, { 
+                threshold: 0.1,
+                rootMargin: "0px 0px -50px 0px"
+            });
+
+            document.querySelectorAll('.reveal').forEach((el, index) => {
+                el.style.transitionDelay = `${index * 0.04}s`;
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>
